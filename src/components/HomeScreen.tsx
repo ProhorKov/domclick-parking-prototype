@@ -1,7 +1,6 @@
-import { ArrowRight, BadgeCheck, Building2, Car, CreditCard, FileText, ShieldCheck } from "lucide-react";
-import { lots } from "../data/lots";
+import { ArrowRight, Building2, Car, CreditCard, FileText, ShieldCheck } from "lucide-react";
 import type { Market, Navigate } from "../types";
-import { SafeImage } from "./shared/SafeImage";
+import { MapSearch } from "./MapSearch";
 import { SearchHero } from "./SearchHero";
 import { DomButton } from "./ui/DomButton";
 
@@ -10,8 +9,6 @@ interface HomeScreenProps {
 }
 
 export function HomeScreen({ go }: HomeScreenProps) {
-  const featured = lots[0];
-
   return (
     <main className="shell page home">
       <section className="hero">
@@ -25,26 +22,7 @@ export function HomeScreen({ go }: HomeScreenProps) {
           <SearchHero go={go} />
         </div>
 
-        <article className="feature-card">
-          <div className="feature-card__top">
-            <span className="feature-card__badge">
-              <BadgeCheck size={17} />
-              Проверено Домклик
-            </span>
-            <span>От застройщика</span>
-          </div>
-          <SafeImage src={featured.image} alt={featured.imageAlt} />
-          <div className="feature-card__body">
-            <h2>{featured.title}</h2>
-            <p>
-              {featured.project}, {featured.level}
-            </p>
-            <div>
-              <strong>{featured.price}</strong>
-              <DomButton onClick={() => go("detail", featured)}>Смотреть</DomButton>
-            </div>
-          </div>
-        </article>
+        <MapSearch go={go} />
       </section>
 
       <section className="service-grid">
@@ -57,7 +35,7 @@ export function HomeScreen({ go }: HomeScreenProps) {
         <div>
           <span className="eyebrow">Выберите сценарий</span>
           <h2>Покупка от застройщика или собственника</h2>
-          <p>Покажите на демо оба рынка: первичный с кабинетом партнёра и вторичный с дополнительной проверкой.</p>
+          <p>Сравните новые места от партнёров и готовые предложения от собственников с проверкой перед сделкой.</p>
         </div>
         <DomButton variant="secondary" onClick={() => go("flow")}>
           Схема сделки

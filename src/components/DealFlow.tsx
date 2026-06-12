@@ -81,7 +81,11 @@ export function DealFlow({ go, lot }: DealFlowProps) {
           <div className="deal__panel">{getStepPanel(step, showNotice)}</div>
         </div>
 
-        {notice && <div className="inline-notice">{notice}</div>}
+        {notice && (
+          <div className="inline-notice" role="status" aria-live="polite">
+            {notice}
+          </div>
+        )}
 
         <div className="deal__footer">
           <DomButton variant="secondary" disabled={step === 1} onClick={() => setStep((value) => value - 1)}>

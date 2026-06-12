@@ -12,7 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useState } from "react";
-import type { Lot, Navigate } from "../types";
+import type { Lot, MapArea, Navigate } from "../types";
 import { DealCalculator } from "./DealCalculator";
 import { SafeImage } from "./shared/SafeImage";
 import { DomButton } from "./ui/DomButton";
@@ -20,9 +20,10 @@ import { DomButton } from "./ui/DomButton";
 interface LotDetailsProps {
   go: Navigate;
   lot: Lot;
+  selectedArea?: MapArea | null;
 }
 
-export function LotDetails({ go, lot }: LotDetailsProps) {
+export function LotDetails({ go, lot, selectedArea }: LotDetailsProps) {
   const [requestSent, setRequestSent] = useState(false);
   const [favorite, setFavorite] = useState(false);
   const [notice, setNotice] = useState("");
@@ -35,7 +36,10 @@ export function LotDetails({ go, lot }: LotDetailsProps) {
 
   return (
     <main className="shell page">
-      <button className="back-link" onClick={() => go("catalog", lot.market)}>
+      <button
+        className="back-link"
+        onClick={() => go("catalog", selectedArea ? { area: selectedArea, market: selectedArea.market } : lot.market)}
+      >
         <ArrowLeft size={16} />
         Назад к списку
       </button>
@@ -114,11 +118,15 @@ export function LotDetails({ go, lot }: LotDetailsProps) {
             <CalendarDays size={17} />
             {requestSent ? "Заявка отправлена" : "Записаться на просмотр"}
           </DomButton>
-          <DomButton variant="ghost" onClick={() => showNotice("Чат с продавцом появится в личном кабинете")}>
+          <DomButton variant="ghost" onClick={() => showNotice("Чат с продавцом откроется после заявки")}>
             <MessageSquare size={17} />
             Написать продавцу
           </DomButton>
-          {notice && <div className="inline-notice">{notice}</div>}
+          {notice && (
+            <div className="inline-notice" role="status" aria-live="polite">
+              {notice}
+            </div>
+          )}
           <div className="detail-cta__seller">
             <div>
               <Building2 size={18} />
@@ -126,7 +134,7 @@ export function LotDetails({ go, lot }: LotDetailsProps) {
             </div>
             <strong>{lot.seller}</strong>
             <p>{lot.sellerNote}</p>
-            <button onClick={() => showNotice("+7 900 000-00-00 · демо-номер")}>
+            <button onClick={() => showNotice("+7 900 000-00-00 · номер скрыт для прототипа")}>
               <Phone size={15} />
               Показать телефон
             </button>

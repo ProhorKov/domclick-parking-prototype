@@ -32,7 +32,11 @@ export function PartnerDashboard({ go }: PartnerDashboardProps) {
             <MessageSquare size={18} />
             Заявки покупателей
           </DomButton>
-          {notice && <div className="partner-sidebar__notice">{notice}</div>}
+          {notice && (
+            <div className="partner-sidebar__notice" role="status" aria-live="polite">
+              {notice}
+            </div>
+          )}
         </aside>
 
         <div className="partner-content">
@@ -48,7 +52,7 @@ export function PartnerDashboard({ go }: PartnerDashboardProps) {
                 <h2>Лоты партнёра</h2>
                 <p>Пул мест по ЖК «Зелёный квартал»</p>
               </div>
-              <DomButton variant="secondary" onClick={() => setNotice("Импорт XML готов к настройке")}>
+              <DomButton variant="secondary" onClick={() => setNotice("Подготовили загрузку пула машино-мест")}>
                 <FileUp size={17} />
                 Импорт
               </DomButton>
@@ -92,7 +96,7 @@ export function PartnerDashboard({ go }: PartnerDashboardProps) {
             </div>
             <div className="recommendations__grid">
               <Recommendation icon={Sparkles} title="Продвинуть места у лифта" text="По ним выше конверсия в заявку" />
-              <Recommendation icon={ShieldCheck} title="Проверить 12 лотов" text="После проверки появится бейдж доверия" />
+              <Recommendation icon={ShieldCheck} title="Проверить 12 лотов" text="После проверки карточки получат бейдж доверия" />
             </div>
           </section>
         </div>
