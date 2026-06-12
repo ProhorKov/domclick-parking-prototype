@@ -42,21 +42,25 @@ export function Header({ go }: HeaderProps) {
           </button>
           <button
             className="icon-button header__desktop-action"
-            onClick={() => showStub("Уведомления подключаются в следующей итерации")}
+            onClick={() => showStub("Уведомления появятся после входа")}
             aria-label="Уведомления"
           >
             <Bell size={18} />
           </button>
-          <button className="header__login" onClick={() => showStub("Вход не нужен для учебного демо")}>
+          <button className="header__login" onClick={() => showStub("Вход в личный кабинет сейчас недоступен")}>
             <UserRound size={17} />
             Войти
           </button>
-          <button className="icon-button header__menu" onClick={() => showStub("Меню свернуто для мобильного демо")} aria-label="Меню">
+          <button className="icon-button header__menu" onClick={() => showStub("Основные разделы доступны в сценариях ниже")} aria-label="Меню">
             <Menu size={20} />
           </button>
         </div>
       </div>
-      {notice && <div className="header-toast">{notice}</div>}
+      {notice && (
+        <div className="header-toast" role="status" aria-live="polite">
+          {notice}
+        </div>
+      )}
     </header>
   );
 }

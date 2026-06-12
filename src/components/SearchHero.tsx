@@ -1,4 +1,4 @@
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, Sparkles } from "lucide-react";
 import { useState } from "react";
 import type { Market, Navigate } from "../types";
 import { DomButton } from "./ui/DomButton";
@@ -9,12 +9,13 @@ interface SearchHeroProps {
 
 export function SearchHero({ go }: SearchHeroProps) {
   const [market, setMarket] = useState<Market>("all");
+  const [price, setPrice] = useState("any");
 
   return (
     <section className="search-box" aria-label="Поиск машино-мест">
       <div className="search-box__tabs">
         <button className="is-active">Купить</button>
-        <button disabled title="Сценарий аренды не входит в демо">
+        <button disabled title="Аренда машино-мест пока недоступна">
           Снять
         </button>
         <button onClick={() => go("partner")}>Продать</button>
@@ -33,7 +34,7 @@ export function SearchHero({ go }: SearchHeroProps) {
           <ChevronDown size={17} />
         </label>
         <label className="search-field">
-          <select defaultValue="any" aria-label="Цена">
+          <select value={price} onChange={(event) => setPrice(event.target.value)} aria-label="Цена">
             <option value="any">Любая цена</option>
             <option value="to-2">До 2 млн ₽</option>
             <option value="2-3">2–3 млн ₽</option>
@@ -41,10 +42,24 @@ export function SearchHero({ go }: SearchHeroProps) {
           </select>
           <ChevronDown size={17} />
         </label>
-        <DomButton size="large" onClick={() => go("catalog", market)}>
+        <DomButton size="large" onClick={() => go("catalog", { filters: getPriceFilters(price), market })}>
           Найти
+        </DomButton>
+      </div>
+      <div className="search-box__smart">
+        <span>Ответьте на несколько вопросов, и Домклик подберёт подходящие машино-места</span>
+        <DomButton variant="secondary" onClick={() => go("smart")}>
+          <Sparkles size={17} />
+          Подобрать с AI
         </DomButton>
       </div>
     </section>
   );
+}
+
+function getPriceFilters(price: string) {
+  if (price === "to-2") return { priceTo: "2" };
+  if (price === "2-3") return { priceFrom: "2", priceTo: "3" };
+  if (price === "from-3") return { priceFrom: "3" };
+  return {};
 }
